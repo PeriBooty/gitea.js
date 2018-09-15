@@ -1,4 +1,5 @@
 const request = require("node-superfetch");
+const util = require('util');
 
 module.exports = class Gitea {
     constructor(options = {}) {
@@ -20,7 +21,7 @@ module.exports = class Gitea {
     }
 
     async getUserInfo() {
-        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
+        request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
             if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
             if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
             throw err;
@@ -52,11 +53,11 @@ module.exports = class Gitea {
     }
 
     async getRepositories() {
-        return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => util.inspect(r.body.data));
+        return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => r.body.data);
     }
 
     async getUsers() {
-        return request.get(new URL(`/api/v1/users/search`, this.options.url)).then(r => util.inspect(r.body.data));
+        return request.get(new URL(`/api/v1/users/search`, this.options.url)).then(r => r.body.data);
     }
 };
 
