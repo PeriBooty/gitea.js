@@ -1,3 +1,4 @@
 module.exports = {
-    Client: require('./Gitea.js'),
+    Client: require('./Gitea'),
+    RepoBuilder: require("./RepoBuilder"),
 }
